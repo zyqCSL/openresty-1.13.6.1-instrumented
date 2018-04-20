@@ -15,6 +15,9 @@ ngx_queue_t  ngx_posted_events;
 ngx_queue_t  ngx_posted_delayed_events;
 
 /* yanqi */
+#include <sys/types.h>
+#include <unistd.h>
+
 static inline uint64_t rdtsc(void);
 
 static inline uint64_t rdtsc(void)
@@ -58,9 +61,9 @@ ngx_event_process_posted(ngx_cycle_t *cycle, ngx_queue_t *posted)
         // yanqi
         end_time = rdtsc();
         ngx_log_error(NGX_LOG_INFO, cycle->log, 0,
-                          "ev_posted->handler() cycle %d\n", end_time - start_time);
+                          "ev_posted->handler() cycle %d, pid %d\n", end_time - start_time, getpid());
 
         ngx_log_error(NGX_LOG_INFO, cycle->log, 0,
-                          "ngx_event_process_posted queueing cycle %d\n", end_time - loop_start_time);
+                          "ngx_event_process_posted queueing cycle %d, pid %d\n", end_time - loop_start_time, getpid());
     }
 }

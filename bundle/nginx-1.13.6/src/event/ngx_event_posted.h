@@ -13,11 +13,6 @@
 #include <ngx_core.h>
 #include <ngx_event.h>
 
-/* yanqi */
-#include <sys/types.h>
-#include <unistd.h>
-
-
 #define ngx_post_event(ev, q)                                                 \
                                                                               \
     if (!(ev)->posted) {                                                      \
@@ -28,7 +23,7 @@
                                                                               \
     } else  {                                                                 \
         ngx_log_debug1(NGX_LOG_DEBUG_CORE, (ev)->log, 0,                      \
-                       "update posted event %p, pid %d", ev, getpid());                         \
+                       "update posted event %p", ev);                         \
     }
 
 
