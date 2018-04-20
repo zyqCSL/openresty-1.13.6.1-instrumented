@@ -10,6 +10,10 @@
 #include <ngx_http.h>
 #include <ngx_http_probe.h>
 
+/* yanqi */
+#include <sys/types.h>
+#include <unistd.h>
+
 
 static void ngx_http_wait_request_handler(ngx_event_t *ev);
 static void ngx_http_process_request_line(ngx_event_t *rev);
@@ -948,6 +952,9 @@ ngx_http_process_request_line(ngx_event_t *rev)
 
     c = rev->data;
     r = c->data;
+
+    ngx_log_error(NGX_LOG_INFO, c->log, 0,
+                      "ngx_http_process_request_line for pid: %d", getpid());
 
     ngx_log_debug0(NGX_LOG_DEBUG_HTTP, rev->log, 0,
                    "http process request line");
@@ -3120,6 +3127,10 @@ ngx_http_keepalive_handler(ngx_event_t *rev)
     ngx_connection_t  *c;
 
     c = rev->data;
+
+    // yanqi
+    ngx_log_error(NGX_LOG_INFO, c->log, 0,
+                      "ngx_http_keepalive_handler for pid: %d", getpid());
 
     ngx_log_debug0(NGX_LOG_DEBUG_HTTP, c->log, 0, "http keepalive handler");
 

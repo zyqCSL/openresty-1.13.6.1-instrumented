@@ -10,6 +10,9 @@
 #include <ngx_event.h>
 
 /* yanqi */
+#include <sys/types.h>
+#include <unistd.h>
+
 static inline uint64_t rdtsc(void);
 
 static inline uint64_t rdtsc(void)
@@ -825,7 +828,7 @@ ngx_epoll_process_events(ngx_cycle_t *cycle, ngx_msec_t timer, ngx_uint_t flags)
     // yanqi
     end_time = rdtsc();
     ngx_log_error(NGX_LOG_INFO, cycle->log, 0,
-                      "epoll_wait() cycle %d, events %d\n", end_time - start_time, events);
+                      "epoll_wait() cycle %d, events %d, pid %d\n", end_time - start_time, events, getpid());
 
     err = (events == -1) ? ngx_errno : 0;
 
@@ -935,10 +938,10 @@ ngx_epoll_process_events(ngx_cycle_t *cycle, ngx_msec_t timer, ngx_uint_t flags)
                 // yanqi
                 end_time = rdtsc();
                 ngx_log_error(NGX_LOG_INFO, cycle->log, 0,
-                                  "rev->handler() cycle %d\n", end_time - start_time);
+                                  "rev->handler() cycle %d, pid %d\n", end_time - start_time, getpid());
 
                 ngx_log_error(NGX_LOG_INFO, cycle->log, 0,
-                                  "epoll_process_events rev queueing cycle %d\n", end_time - loop_start_time);
+                                  "epoll_process_events rev queueing cycle %d, pid %d\n", end_time - loop_start_time, getpid());
             }
         }
 
